@@ -1,18 +1,16 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
-    public static String[][] listaDeContatos;
-    public static int numeroDeContatos = 0;
+    // List of all Contatos
+    public static Map<Integer, List<String>> listaDeContatos = new HashMap<Integer, List<String>>();
+
+    // id contato increment controller
+    public static int idAutoIncrement = 0;
 
     class Menu{
-
-        // List of all Contatos
-
 
         //show the welcome message
         static void printWelcomeMsg(){
@@ -22,12 +20,6 @@ public class Main {
             breakLine(1);
             System.out.println("Seja bem vindo ao nosso sistema!");
             breakLine(1);
-            System.out.println(">> INFORME A QUANTIDADE DE CONTATOS :");
-            System.out.print(">>");
-            checkNumberPressedIsAInteger(scanner);
-            numeroDeContatos = scanner.nextInt();
-
-            listaDeContatos = new String[numeroDeContatos][3];
 
         }
 
@@ -58,7 +50,7 @@ public class Main {
                     "+----------------------------------+\n"
             );
             System.out.println("Digite a operação abaixo :");
-            System.out.print(">>");
+            System.out.print("❯ ");
         }
 
         // capture the operation and send the response function
@@ -116,38 +108,56 @@ public class Main {
 
         static void addContatoOperation(){
             Scanner scanner = new Scanner(System.in);
+            List<String> dadosContato = new ArrayList<>();
 
-            breakLine(10);
+            breakLine(5);
             System.out.println("=-=-=-= ADICIONAR UM CONTATO =-=-=-=");
             breakLine(1);
 
             System.out.println("Digite o nome: ");
-            System.out.print(">>");
-            String nome = scanner.nextLine();
+            System.out.print("❯ ");
+            String nome = checkScannerValueIsEmpty();
 
             System.out.println("Digite o telefone: ");
-            System.out.print(">>");
-            String telefone = scanner.nextLine();
+            System.out.print("❯ ");
+            String telefone =checkScannerValueIsEmpty();
 
             System.out.println("Digite o email: ");
-            System.out.print(">>");
-            String email = scanner.nextLine();
+            System.out.print("❯ ");
+            String email = checkScannerValueIsEmpty();
 
+            dadosContato.add(nome);
+            dadosContato.add(telefone);
+            dadosContato.add(email);
+
+            listaDeContatos.put(idAutoIncrement,dadosContato);
+            idAutoIncrement++;
+
+            breakLine(10);
             System.out.println(">> CONTATO ADICIONADO COM SUCESSO!");
 
         }
 
         static void listarContatosOperation(){
 
-            breakLine(10);
+            breakLine(5);
             System.out.println("=-=-= Lista de Contatos =-=-=");
             breakLine(1);
-            System.out.println("Quantidade de cadastros: ["+listaDeContatos.length+"]");
+           System.out.println("Quantidade de contatos: ["+listaDeContatos.size()+"]");
 
-            if (listaDeContatos[0][0]==null)
-                System.out.println("> Nenhum contato ainda foi adicionado!");
-            else
-                System.out.println("Lista de contatos");
+            if(listaDeContatos.isEmpty()){
+                System.out.println(">> NENHUM CONTATO ADICIONADO <<");
+            }else{
+               for(int i=0 ; i<listaDeContatos.size(); i++){
+                   String linha= "ID: "+i
+                           +" - Nome: "+listaDeContatos.get(i).get(0)
+                           +" - Telefone:"+listaDeContatos.get(i).get(1)
+                           +" - Email: "+listaDeContatos.get(i).get(2);
+
+                   System.out.println(linha);
+               }
+
+            }
         }
 
     }
@@ -162,9 +172,22 @@ public class Main {
     static void checkNumberPressedIsAInteger(Scanner scanner){
         while (!scanner.hasNextInt()) {
             System.out.println(">> POR FAVOR, DIGITE UM NÚMERO INTEIRO DENTRO DAS OPERAÇÕES!");
-            System.out.print(">>");
+            System.out.print("❯");
             scanner.next();
         }
+    }
+
+    static String checkScannerValueIsEmpty(){
+        Scanner keyboard = new Scanner(System.in);
+        String line = null;
+
+        while((line = keyboard.nextLine()).isEmpty()) {
+
+            System.out.println(">> POR FAVOR, NÃO DEIXE O CAMPO VAZIO");
+            System.out.print("❯ ");
+        }
+
+        return line;
     }
 
     // persist data of develper team
@@ -182,8 +205,8 @@ public class Main {
         teamData[1][2] = "Curso: Análise e Desenvolvimento de Sistemas";
 
         //Info Phylyp
-        teamData[2][0] = "Nome: Phylyp";
-        teamData[2][1] = "Matrícula: ";
+        teamData[2][0] = "Nome: Phylyp Cavalcante";
+        teamData[2][1] = "Matrícula: 1-2021221448";
         teamData[2][2] = "Curso: Sistema de Informação";
 
         //info Rafael
