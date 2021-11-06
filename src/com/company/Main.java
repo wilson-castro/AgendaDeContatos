@@ -8,7 +8,7 @@ public class Main {
     public static Map<Integer, List<String>> listaDeContatos = new HashMap<Integer, List<String>>();
 
     // id contato increment controller
-    public static int idAutoIncrement = 0;
+    public static int idAutoIncrement = 1;
 
     class Menu{
 
@@ -64,10 +64,10 @@ public class Main {
                     addContatoOperation();
                     break;
                 case 3:
-                    System.out.println("3");
+                    deletarContatoOperation();
                     break;
                 case 4:
-                    System.out.println("4");
+                    alterarContatoOperation();
                     break;
                 case 5:
                     printByeMsg();
@@ -148,14 +148,108 @@ public class Main {
             if(listaDeContatos.isEmpty()){
                 System.out.println(">> NENHUM CONTATO ADICIONADO <<");
             }else{
-               for(int i=0 ; i<listaDeContatos.size(); i++){
-                   String linha= "ID: "+i
-                           +" - Nome: "+listaDeContatos.get(i).get(0)
-                           +" - Telefone:"+listaDeContatos.get(i).get(1)
-                           +" - Email: "+listaDeContatos.get(i).get(2);
 
-                   System.out.println(linha);
-               }
+                // catch all keys
+                Iterator<Integer> keysListaDeContatos = listaDeContatos.keySet().iterator();
+
+                //using iterator for navegate in the map
+                while (keysListaDeContatos.hasNext()) {
+                        Integer key = keysListaDeContatos.next();
+                        String linha= "ID: "+key
+                                +" - Nome: "+listaDeContatos.get(key).get(0)
+                                +" - Telefone:"+listaDeContatos.get(key).get(1)
+                                +" - Email: "+listaDeContatos.get(key).get(2);
+
+                        System.out.println(linha);
+                }
+
+            }
+        }
+
+        static void alterarContatoOperation(){
+            Scanner scanner = new Scanner(System.in);
+            int contatoID = 0;
+
+            breakLine(5);
+            System.out.println("=-=-= Alterar um contato =-=-=");
+            breakLine(1);
+
+            if(listaDeContatos.isEmpty()){
+                System.out.println(">> NENHUM CONTATO ADICIONADO <<");
+            }else{
+
+                System.out.println("Digite o ID do contato :");
+                System.out.print("❯ ");
+
+                // check if a integer value digited
+                checkNumberPressedIsAInteger(scanner);
+                contatoID =  scanner.nextInt();
+
+                if (listaDeContatos.containsKey(contatoID)){
+                    List<String> dadosContato = new ArrayList<>();
+
+                    breakLine(1);
+                    System.out.println(">>> ADICIONE OS NOVOS DADOS <<<");
+                    breakLine(1);
+
+                    System.out.println("Digite o novo nome: ");
+                    System.out.print("❯ ");
+                    String nome = checkScannerValueIsEmpty();
+
+                    System.out.println("Digite o novo telefone: ");
+                    System.out.print("❯ ");
+                    String telefone =checkScannerValueIsEmpty();
+
+                    System.out.println("Digite o novo email: ");
+                    System.out.print("❯ ");
+                    String email = checkScannerValueIsEmpty();
+
+                    dadosContato.add(nome);
+                    dadosContato.add(telefone);
+                    dadosContato.add(email);
+
+                    listaDeContatos.put(contatoID,dadosContato);
+
+                    breakLine(10);
+                    System.out.println(">> CONTATO ALTERADO COM SUCESSO!");
+
+                }else{
+                    System.out.println(">> NÃO EXISTE NENHUM CONTATO COM ESSE ID <<");
+                }
+
+            }
+
+        }
+
+        static void deletarContatoOperation(){
+            Scanner scanner = new Scanner(System.in);
+            int contatoID = 0;
+
+            breakLine(5);
+            System.out.println("=-=-= Deletar um contato =-=-=");
+            breakLine(1);
+
+            if(listaDeContatos.isEmpty()){
+                System.out.println(">> NENHUM CONTATO ADICIONADO <<");
+            }else{
+
+                System.out.println("Digite o ID do contato :");
+                System.out.print("❯ ");
+
+                // check if a integer value digited
+                checkNumberPressedIsAInteger(scanner);
+                contatoID =  scanner.nextInt();
+
+                if (listaDeContatos.containsKey(contatoID)){
+
+                    listaDeContatos.remove(contatoID);
+
+                    breakLine(10);
+                    System.out.println(">> CONTATO DELETADO COM SUCESSO!");
+
+                }else{
+                    System.out.println(">> NÃO EXISTE NENHUM CONTATO COM ESSE ID <<");
+                }
 
             }
         }
@@ -242,7 +336,6 @@ public class Main {
         }
 
     }
-
 
     // MAIN METHOD
     public static void main(String[] args) {
