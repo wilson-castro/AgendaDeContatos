@@ -339,8 +339,8 @@ public class Main {
         teamData[0][2] = "Curso: Análise e Desenvolvimento de Sistemas";
 
         //Info João Pedro
-        teamData[1][0] = "Nome: Jp";
-        teamData[1][1] = "Matrícula: ";
+        teamData[1][0] = "Nome: João Pedro Estanislau Correia";
+        teamData[1][1] = "Matrícula: 1-2021221151";
         teamData[1][2] = "Curso: Análise e Desenvolvimento de Sistemas";
 
         //Info Phylyp
